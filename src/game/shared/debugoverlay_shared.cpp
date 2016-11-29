@@ -64,10 +64,8 @@ void NDebugOverlay::BoxDirection(const Vector &origin, const Vector &mins, const
 //-----------------------------------------------------------------------------
 void NDebugOverlay::BoxAngles(const Vector &origin, const Vector &mins, const Vector &maxs, const QAngle &angles, int r, int g, int b, int a, float duration)
 {
-	if ( debugoverlay )
-	{
+	if(debugoverlay)
 		debugoverlay->AddBoxOverlay( origin, mins, maxs, angles, r, g, b, a, duration );
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -75,10 +73,8 @@ void NDebugOverlay::BoxAngles(const Vector &origin, const Vector &mins, const Ve
 //-----------------------------------------------------------------------------
 void NDebugOverlay::SweptBox( const Vector& start, const Vector& end, const Vector& mins, const Vector& maxs, const QAngle & angles, int r, int g, int b, int a, float flDuration)
 {
-	if ( debugoverlay )
-	{
+	if(debugoverlay)
 		debugoverlay->AddSweptBoxOverlay( start, end, mins, maxs, angles, r, g, b, a, flDuration );
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -121,12 +117,9 @@ void NDebugOverlay::Line( const Vector &origin, const Vector &target, int r, int
 	if (dotOrigin < 0 && dotTarget < 0) 
 		return;
 
-	if ( debugoverlay )
-	{
+	if(debugoverlay)
 		debugoverlay->AddLineOverlay( origin, target, r, g, b, noDepthTest, duration );
-	}
 }
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Draw triangle
@@ -160,10 +153,8 @@ void NDebugOverlay::Triangle( const Vector &p1, const Vector &p2, const Vector &
 	if (dot1 < 0 && dot2 < 0 && dot3 < 0) 
 		return;
 
-	if ( debugoverlay )
-	{
+	if(debugoverlay)
 		debugoverlay->AddTriangleOverlay( p1, p2, p3, r, g, b, a, noDepthTest, duration );
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -184,10 +175,8 @@ void NDebugOverlay::EntityText( int entityID, int text_offset, const char *text,
 //-----------------------------------------------------------------------------
 void NDebugOverlay::EntityTextAtPosition( const Vector &origin, int text_offset, const char *text, float duration, int r, int g, int b, int a )
 {
-	if ( debugoverlay )
-	{
+	if(debugoverlay)
 		debugoverlay->AddTextOverlayRGB( origin, text_offset, duration, r, g, b, a, "%s", text );
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -195,10 +184,8 @@ void NDebugOverlay::EntityTextAtPosition( const Vector &origin, int text_offset,
 //-----------------------------------------------------------------------------
 void NDebugOverlay::Grid( const Vector &vPosition )
 {
-	if ( debugoverlay )
-	{
+	if(debugoverlay)
 		debugoverlay->AddGridOverlay( vPosition );
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -235,10 +222,8 @@ void NDebugOverlay::Text( const Vector &origin, const char *text, bool bViewChec
 			return;
 	}
 
-	if ( debugoverlay )
-	{
+	if(debugoverlay)
 		debugoverlay->AddTextOverlay( origin, duration, "%s", text );
-	}	
 }
 
 //-----------------------------------------------------------------------------
@@ -246,10 +231,8 @@ void NDebugOverlay::Text( const Vector &origin, const char *text, bool bViewChec
 //-----------------------------------------------------------------------------
 void NDebugOverlay::ScreenText( float flXpos, float flYpos, const char *text, int r, int g, int b, int a, float duration )
 {
-	if ( debugoverlay )
-	{
+	if(debugoverlay)
 		debugoverlay->AddScreenTextOverlay( flXpos, flYpos, duration, r, g, b, a, text );
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -372,9 +355,7 @@ void NDebugOverlay::DrawTickMarkedLine(const Vector &startPos, const Vector &end
 			tickTextCnt = 0;
 		}
 		else
-		{
 			Line(tickLeft, tickRight, r,g,b,noDepthTest,duration);
-		}
 		
 		tickTextCnt++;
 
@@ -639,8 +620,9 @@ void NDebugOverlay::Circle( const Vector &position, const Vector &xAxis, const V
 
 		// If we have an alpha value, then draw the fan
 		if ( a && i > 1 )
-		{		
-			debugoverlay->AddTriangleOverlay( vecStart, vecLastPosition, vecPosition, r, g, b, a, bNoDepthTest, flDuration );
+		{
+			if(debugoverlay)
+				debugoverlay->AddTriangleOverlay( vecStart, vecLastPosition, vecPosition, r, g, b, a, bNoDepthTest, flDuration );
 		}
 	}
 }
