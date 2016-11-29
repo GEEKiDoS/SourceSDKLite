@@ -91,7 +91,7 @@ CNewParticleEffect::~CNewParticleEffect(void)
 		state.m_nParticleSystemId = gpGlobals->curtime;
 		state.m_flTime = gpGlobals->curtime;
 
-		KeyValues *msg = new KeyValues( "ParticleSystem_Destroy" );
+		KeyValues *msg = new KeyValues( "ParticleSystem_Destroy" ); // OUCH
 		msg->SetPtr( "state", &state );
 
 		ToolFramework_PostToolMessage( HTOOLHANDLE_INVALID, msg );

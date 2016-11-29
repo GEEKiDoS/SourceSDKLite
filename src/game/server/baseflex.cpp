@@ -1326,22 +1326,14 @@ static Activity DetermineExpressionMoveActivity( CChoreoEvent *event, CAI_BaseNP
 		pszAct = szActName;
 	}
 	else
-	{
 		pszAct = sParam2;
-	}
 
 	if ( !Q_stricmp( pszAct, "Walk" ) )
-	{
 		activity = ACT_WALK;
-	}
 	else if ( !Q_stricmp( pszAct, "Run" ) )
-	{
 		activity = ACT_RUN;
-	}
 	else if ( !Q_stricmp( pszAct, "CrouchWalk" ) )
-	{
 		activity = ACT_WALK_CROUCH;
-	}
 	else 
 	{
 		// Try and resolve the activity name

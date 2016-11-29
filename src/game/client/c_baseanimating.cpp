@@ -5376,7 +5376,7 @@ void C_BaseAnimating::ResetSequenceInfo( void )
 	m_flGroundSpeed = GetSequenceGroundSpeed( pStudioHdr, GetSequence() ) * GetModelScale();
 	m_bSequenceLoops = ( ( GetSequenceFlags( pStudioHdr, GetSequence() ) & STUDIO_LOOPING ) != 0 );
 	// m_flAnimTime = gpGlobals->time;
-	m_flPlaybackRate = 1.0;
+	m_flPlaybackRate = 1.0f;
 	m_bSequenceFinished = false;
 	m_flLastEventCheck = 0;
 

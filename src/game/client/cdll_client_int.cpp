@@ -141,7 +141,6 @@
 
 #if defined( TF_CLIENT_DLL )
 #include "econ/tool_items/custom_texture_cache.h"
-
 #endif
 
 #ifdef WORKSHOP_IMPORT_ENABLED

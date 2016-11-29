@@ -518,7 +518,7 @@ public:
 
 	// Used when the collision prop is told to ask game code for the world-space surrounding box
 	virtual void					ComputeWorldSpaceSurroundingBox( Vector *pVecWorldMins, Vector *pVecWorldMaxs );
-	virtual float						GetHealthBarHeightOffset() const { return 0.f; }
+	virtual float					GetHealthBarHeightOffset() const { return 0.f; }
 
 	// Returns the entity-to-world transform
 	matrix3x4_t						&EntityToWorldTransform();
@@ -1394,7 +1394,7 @@ public:
 
 	virtual bool					IsDeflectable() { return false; }
 
-	bool			IsCombatCharacter() { return MyCombatCharacterPointer() == NULL ? false : true; }
+	bool							IsCombatCharacter() { return MyCombatCharacterPointer() == NULL ? false : true; }
 protected:
 	int								m_nFXComputeFrame;
 

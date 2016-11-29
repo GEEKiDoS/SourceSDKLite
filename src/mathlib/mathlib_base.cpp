@@ -1491,7 +1491,7 @@ inline float MovePeak( float x, float flPeakPos )
 	if( x < flPeakPos )
 		return x * 0.5f / flPeakPos;
 	else
-		return 0.5 + 0.5 * (x - flPeakPos) / (1 - flPeakPos);
+		return 0.5f + 0.5f * (x - flPeakPos) / (1 - flPeakPos);
 }
 
 
