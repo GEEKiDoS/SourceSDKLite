@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -25,6 +25,7 @@ public:
 					ClientModeSDKNormal();
 	virtual			~ClientModeSDKNormal();
 
+	virtual void	Init();
 	virtual void	InitViewport();
 
 	virtual float	GetViewModelFOV( void );
@@ -33,7 +34,18 @@ public:
 
 	virtual void	PostRenderVGui();
 
-	
+	void DoPostScreenSpaceEffects( const CViewSetup *pSetup );
+
+	virtual bool	CanRecordDemo( char *errorMsg, int length ) const;
+
+	virtual void	OverrideView( CViewSetup *pSetup );
+
+	virtual void	Update( void );
+
+	virtual void	Shutdown();
+
+	virtual void	LevelInit( const char *newmap );
+
 private:
 	
 	//	void	UpdateSpectatorMode( void );

@@ -689,9 +689,8 @@ void AnimationController::UpdatePostedMessages(bool bRunToCompletion)
 		case CMD_RUNEVENT:
 			{
 				RanEvent_t curEvent;
-				curEvent.pParent = NULL;
+				
 				curEvent.event = msg.event;
-
 				curEvent.pParent = msg.parent.Get();
 				
 				// run the event, but only if we haven't already run it this frame, for this parent

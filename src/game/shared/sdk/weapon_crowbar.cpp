@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -30,7 +30,7 @@ public:
 	
 	CWeaponCrowbar();
 
-	virtual SDKWeaponID GetWeaponID( void ) const		{	return SDK_WEAPON_CROWBAR; }
+	virtual int GetWeaponID( void ) const		{	return SDK_WEAPON_CROWBAR; }
 	virtual float	GetRange( void )					{	return	64.0f;	}	//Tony; let the crowbar swing further.
 	virtual bool CanWeaponBeDropped() const				{	return false; }
 

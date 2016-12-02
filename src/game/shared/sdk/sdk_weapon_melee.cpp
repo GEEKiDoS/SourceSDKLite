@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Base code for any melee based weapon
 //
@@ -103,10 +103,12 @@ void CWeaponSDKMelee::PrimaryAttack()
 	
 #ifndef CLIENT_DLL
 	CSDKPlayer *pPlayer = ToSDKPlayer( GetPlayerOwner() );
+	pPlayer->NoteWeaponFired();
 	// Move other players back to history positions based on local player's lag
-	lagcompensation->StartLagCompensation( pPlayer, pPlayer->GetCurrentCommand() );
+	lagcompensation->StartLagCompensation( pPlayer, LAG_COMPENSATE_BOUNDS );
 #endif
 	Swing( false );
+
 #ifndef CLIENT_DLL
 	// Move other players back to history positions based on local player's lag
 	lagcompensation->FinishLagCompensation( pPlayer );
@@ -227,12 +229,12 @@ bool CWeaponSDKMelee::ImpactWater( const Vector &start, const Vector &end )
 	//		 right now anyway...
 	
 	// We must start outside the water
-	if ( UTIL_PointContents( start ) & (CONTENTS_WATER|CONTENTS_SLIME))
-		return false;
+	//if ( UTIL_PointContents( start ) & (CONTENTS_WATER|CONTENTS_SLIME))
+	//	return false;
 
-	// We must end inside of water
-	if ( !(UTIL_PointContents( end ) & (CONTENTS_WATER|CONTENTS_SLIME)))
-		return false;
+	//// We must end inside of water
+	//if ( !(UTIL_PointContents( end ) & (CONTENTS_WATER|CONTENTS_SLIME)))
+	//	return false;
 
 	trace_t	waterTrace;
 

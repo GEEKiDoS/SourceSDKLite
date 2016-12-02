@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -13,8 +13,8 @@
 
 #include <vgui_controls/Panel.h>
 #include <vgui_controls/EditablePanel.h>
-#include "utlvector.h"
-
+#include "UtlVector.h"
+ 
 
 class CPanelEffect;
 
@@ -30,7 +30,7 @@ class C_SDKRootPanel : public vgui::Panel
 {
 	typedef vgui::Panel BaseClass;
 public:
-						C_SDKRootPanel( vgui::VPANEL parent );
+	C_SDKRootPanel( vgui::VPANEL parent, int slot );
 	virtual				~C_SDKRootPanel( void );
 
 	// Draw Panel effects here
@@ -43,6 +43,9 @@ public:
 	// Run effects and let them decide whether to remove themselves
 	void				OnTick( void );
 
+	//virtual void		PaintTraverse( bool Repaint, bool allowForce = true );
+
+	//virtual void		OnThink();
 private:
 
 	// Render all panel effects
@@ -50,6 +53,7 @@ private:
 
 	// List of current panel effects
 	CUtlVector< CPanelEffect *> m_Effects;
+	int			m_nSplitSlot;
 };
 
 

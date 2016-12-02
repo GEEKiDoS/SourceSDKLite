@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -64,8 +64,8 @@ const char *pszTeamNames[] =
 const char *pszPossiblePlayerModels[] =
 {
 	SDK_PLAYER_MODEL,
-	"models/player/american_rifleman.mdl",
-	"models/player/german_rifleman.mdl",
+	"models/player/blue_player.mdl",
+	"models/player/red_player.mdl",
 	NULL
 };
 
@@ -107,10 +107,8 @@ int AliasToWeaponID( const char *alias )
 //
 const char *WeaponIDToAlias( int id )
 {
-	if ( (id >= WEAPON_MAX) || (id < 0) )
+	if ( (id >= SDK_WEAPON_MAX) || (id < 0) )
 		return NULL;
 
 	return s_WeaponAliasInfo[id];
 }
-
-

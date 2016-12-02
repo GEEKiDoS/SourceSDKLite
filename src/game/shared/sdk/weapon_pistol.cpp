@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -29,7 +29,7 @@ public:
 	
 	CWeaponPistol();
 
-	virtual SDKWeaponID GetWeaponID( void ) const		{ return SDK_WEAPON_PISTOL; }
+	virtual int GetWeaponID( void ) const		{ return SDK_WEAPON_PISTOL; }
 	virtual int GetFireMode() const { return FM_SEMIAUTOMATIC; }
 
 private:

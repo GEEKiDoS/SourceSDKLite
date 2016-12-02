@@ -362,13 +362,10 @@ void Label::SetTextInset(int xInset, int yInset)
 void Label::GetTextInset(int *xInset, int *yInset )
 {
 	if ( xInset )
-	{
 		*xInset = _textInset[0];
-	}
+	
 	if ( yInset )
-	{
 		*yInset = _textInset[1];
-	}
 }
 
 //-----------------------------------------------------------------------------

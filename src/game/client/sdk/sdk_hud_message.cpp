@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2004, Valve LLC, All rights reserved. ============
 //
 // Purpose: Simple HUD element
 //
@@ -28,7 +28,9 @@ public:
 	CHudGameMessage( const char *pElementName ) : CHudElement( pElementName ), vgui::Panel( NULL, "HudGameMessage" ) 
 	{
 		// Set our parent window
-		SetParent( g_pClientMode->GetViewport() );
+		SetParent( GetClientMode()->GetViewport() );
+
+		SetPaintBackgroundEnabled( false );
 		
 		m_pIcon = NULL;
 
@@ -57,7 +59,7 @@ DECLARE_HUD_MESSAGE( CHudGameMessage, GameMessage );
 void CHudGameMessage::VidInit( void )
 {
 	// Store off a reference to our icon
-	m_pIcon = gHUD.GetIcon( "message_icon" );
+	m_pIcon = HudIcons().GetIcon( "message_icon" );
 
 	m_pText[0] = '\0';
 }

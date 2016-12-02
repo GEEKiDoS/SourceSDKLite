@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2004, Valve LLC, All rights reserved. ============
 //
 // Purpose: A simple test entity for creating special effects
 //
@@ -191,4 +191,4 @@ void SparkleCallback( const CEffectData &data )
 }
 
 // This links our server-side call to a client-side function
-DECLARE_CLIENT_EFFECT( "Sparkle", SparkleCallback );
+DECLARE_CLIENT_EFFECT( Sparkle, SparkleCallback );

@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -117,7 +117,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 CHudWeaponSelection::CHudWeaponSelection( const char *pElementName ) : CBaseHudWeaponSelection(pElementName), BaseClass(NULL, "HudWeaponSelection")
 {
-	vgui::Panel *pParent = g_pClientMode->GetViewport();
+	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
 	m_bFadingOut = false;
 }
@@ -149,7 +149,7 @@ void CHudWeaponSelection::OnThink( void )
 		if (!m_bFadingOut)
 		{
 			// start fading out
-			g_pClientMode->GetViewportAnimationController()->StartAnimationSequence( "FadeOutWeaponSelectionMenu" );
+			GetClientMode()->GetViewportAnimationController()->StartAnimationSequence( "FadeOutWeaponSelectionMenu" );
 			m_bFadingOut = true;
 		}
 		else if (gpGlobals->curtime - m_flSelectionTime > SELECTION_TIMEOUT_THRESHOLD + SELECTION_FADEOUT_TIME)
@@ -161,7 +161,7 @@ void CHudWeaponSelection::OnThink( void )
 	else if (m_bFadingOut)
 	{
 		// stop us fading out, show the animation again
-		g_pClientMode->GetViewportAnimationController()->StartAnimationSequence( "OpenWeaponSelectionMenu" );
+		GetClientMode()->GetViewportAnimationController()->StartAnimationSequence( "OpenWeaponSelectionMenu" );
 		m_bFadingOut = false;
 	}
 }
@@ -217,7 +217,7 @@ void CHudWeaponSelection::Paint()
 
 	// interpolate the selected box size between the small box size and the large box size
 	// interpolation has been removed since there is no weapon pickup animation anymore, so it's all at the largest size
-	float percentageDone = 1.0f; //min(1.0f, (gpGlobals->curtime - m_flPickupStartTime) / m_flWeaponPickupGrowTime);
+	float percentageDone = 1.0f; //MIN(1.0f, (gpGlobals->curtime - m_flPickupStartTime) / m_flWeaponPickupGrowTime);
 	int largeBoxWide = m_flSmallBoxSize + ((m_flLargeBoxWide - m_flSmallBoxSize) * percentageDone);
 	int largeBoxTall = m_flSmallBoxSize + ((m_flLargeBoxTall - m_flSmallBoxSize) * percentageDone);
 	Color selectedColor;
@@ -287,11 +287,7 @@ void CHudWeaponSelection::Paint()
 					// setup our localized string
 					if ( tempString )
 					{
-#ifdef WIN32
 						_snwprintf(text, sizeof(text)/sizeof(wchar_t) - 1, L"%s", tempString);
-#else
-						_snwprintf(text, sizeof(text)/sizeof(wchar_t) - 1, L"%S", tempString);
-#endif
 						text[sizeof(text)/sizeof(wchar_t) - 1] = 0;
 					}
 					else
@@ -440,7 +436,7 @@ void CHudWeaponSelection::OpenSelection( void )
 	Assert(!IsInSelectionMode());
 
 	CBaseHudWeaponSelection::OpenSelection();
-	g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("OpenWeaponSelectionMenu");
+	GetClientMode()->GetViewportAnimationController()->StartAnimationSequence("OpenWeaponSelectionMenu");
 }
 
 //-----------------------------------------------------------------------------
@@ -449,7 +445,7 @@ void CHudWeaponSelection::OpenSelection( void )
 void CHudWeaponSelection::HideSelection( void )
 {
 	CBaseHudWeaponSelection::HideSelection();
-	g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("CloseWeaponSelectionMenu");
+	GetClientMode()->GetViewportAnimationController()->StartAnimationSequence("CloseWeaponSelectionMenu");
 	m_bFadingOut = false;
 }
 
