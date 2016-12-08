@@ -101,4 +101,3 @@ PLATFORM_INTERFACE void MinidumpUserStreamInfoAppend( const char *pFormat, ... )
 PLATFORM_INTERFACE const char *MinidumpUserStreamInfoGet( int Index );
 
 #endif // MINIDUMP_H
-

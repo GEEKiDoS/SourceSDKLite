@@ -33,6 +33,7 @@ public:
 		eRepackBSP_CompressLumps    = 1 << 0,
 		eRepackBSP_CompressPackfile = 1 << 1
 	};
+
 	virtual bool RepackBSP( CUtlBuffer &inputBuffer, CUtlBuffer &outputBuffer, eRepackBSPFlags repackFlags ) = 0;
 
 	// used to get/set the pak file from a BSP

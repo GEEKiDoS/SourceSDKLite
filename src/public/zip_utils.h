@@ -25,15 +25,16 @@ public:
 		eCompressionType_None    = 0,
 		eCompressionType_LZMA    = 14
 	};
+
 	virtual void			Reset() = 0;
 
-	// Add a single file to a zip - maintains the zip's previous alignment state.
+	// Add a single file to a zip - maintains the zip's previous alignment state
 	virtual void			AddFileToZip		( const char *relativename, const char *fullpath, eCompressionType compressionType = eCompressionType_None ) = 0;
 
 	// Whether a file is contained in a zip - maintains alignment
 	virtual bool			FileExistsInZip		( const char *pRelativeName ) = 0;
 
-	// Reads a file from the zip - maintains alignement.
+	// Reads a file from the zip - maintains alignement
 	virtual bool			ReadFileFromZip		( const char *pRelativeName, bool bTextMode, CUtlBuffer &buf ) = 0;
 	virtual bool			ReadFileFromZip		( HANDLE hFile, const char *pRelativeName, bool bTextMode, CUtlBuffer &buf ) = 0;
 

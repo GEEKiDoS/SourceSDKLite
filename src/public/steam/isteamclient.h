@@ -231,7 +231,6 @@ public:
 	virtual ISteamVideo *GetISteamVideo( HSteamUser hSteamuser, HSteamPipe hSteamPipe, const char *pchVersion ) = 0;
 };
 
-
 #define STEAMCLIENT_INTERFACE_VERSION		"SteamClient017"
 
 //-----------------------------------------------------------------------------
