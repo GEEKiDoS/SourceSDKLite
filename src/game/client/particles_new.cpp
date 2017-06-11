@@ -83,7 +83,7 @@ void CNewParticleEffect::Construct()
 	}
 }
 
-CNewParticleEffect::~CNewParticleEffect(void)
+CNewParticleEffect::~CNewParticleEffect()
 {
 	if ( m_nToolParticleEffectId != TOOLPARTICLESYSTEMID_INVALID && clienttools->IsInRecordingMode() )
 	{
