@@ -54,7 +54,9 @@ config.cfg
 # shader files
 *.tmp
 
-# Local environment
+# Merge files
 [Mm]erge/
+
+# Temp
 thirdparty/
 .gitmodules
