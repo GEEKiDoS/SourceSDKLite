@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
+//========= Copyright Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -13,13 +13,11 @@
 
 #include <hud_basechat.h>
 
-
 class CHudChatLine : public CBaseHudChatLine
 {
 	DECLARE_CLASS_SIMPLE( CHudChatLine, CBaseHudChatLine );
 
 public:
-
 	CHudChatLine( vgui::Panel *parent, const char *panelName );
 
 	virtual void	ApplySchemeSettings(vgui::IScheme *pScheme);
