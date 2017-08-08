@@ -58,5 +58,4 @@ config.cfg
 [Mm]erge/
 
 # Temp
-thirdparty/
 .gitmodules
