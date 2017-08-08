@@ -19,8 +19,6 @@
 // define SDK_USE_TEAMS
 #define SDK_USE_TEAMS
 
-
-
 //
 // Do you use player classes?
 // define SDK_USE_PLAYERCLASSES
@@ -49,7 +47,7 @@
 //
 // Can your players go prone?
 // define SDK_USE_PRONE
-//#define SDK_USE_PRONE
+#define SDK_USE_PRONE
 
 //=====================
 // EXTRA WEAPON OPTIONS
@@ -58,12 +56,12 @@
 //
 // If you're allowing sprinting, do you want to be able to shoot while sprinting?
 // define SDK_SHOOT_WHILE_SPRINTING
-//#define SDK_SHOOT_WHILE_SPRINTING
+#define SDK_SHOOT_WHILE_SPRINTING
 
 //
 // Do you want your players to be able to shoot while climing ladders?
 // define SDK_SHOOT_ON_LADDERS
-//#define SDK_SHOOT_ON_LADDERS
+#define SDK_SHOOT_ON_LADDERS
 
 //
 // Do you want your players to be able to shoot while jumping?
@@ -72,7 +70,7 @@
 
 
 
-#define SDK_GAME_DESCRIPTION	"Swarm SDK Template"
+#define SDK_GAME_DESCRIPTION	"SDK Template mod v1"
 
 //================================================================================
 // Most elements below here are specific to the options above.
@@ -152,19 +150,9 @@ typedef enum
 	SDK_WEAPON_PISTOL,
 	SDK_WEAPON_CROWBAR,
 
-	SDK_WEAPON_MAX,		// number of weapons weapon index
+	
+	WEAPON_MAX,		// number of weapons weapon index
 } SDKWeaponID;
-
-#if defined(TF_DLL) || defined(TF_CLIENT_DLL)
-	#define TIME_TO_DUCK		0.2
-	#define TIME_TO_DUCK_MS		200.0f
-#else
-	#define TIME_TO_DUCK		0.4
-	#define TIME_TO_DUCK_MS		400.0f
-#endif 
-#define TIME_TO_UNDUCK		0.2
-#define TIME_TO_UNDUCK_MS	200.0f
-
 
 typedef enum
 {
@@ -206,7 +194,7 @@ enum SDKPlayerState
 
 	NUM_PLAYER_STATES
 };
-#define SDK_PLAYER_DEATH_TIME	1.0f	//Minimum Time before respawning
+#define SDK_PLAYER_DEATH_TIME	5.0f	//Minimum Time before respawning
 
 // Special Damage types
 enum

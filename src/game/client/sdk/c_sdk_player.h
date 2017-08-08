@@ -15,7 +15,7 @@
 #include "c_baseplayer.h"
 #include "baseparticleentity.h"
 #include "sdk_player_shared.h"
-#include "sdk_shareddefs.h"
+
 
 class C_SDKPlayer : public C_BasePlayer
 {

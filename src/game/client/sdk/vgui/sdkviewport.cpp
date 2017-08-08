@@ -46,7 +46,6 @@
 #include "sdk_teammenu.h"
 #endif
 
-#include "clientmode_sdk.h"
 #if defined ( SDK_USE_TEAMS )
 CON_COMMAND_F( changeteam, "Choose a new team", FCVAR_SERVER_CAN_EXECUTE|FCVAR_CLIENTCMD_CAN_EXECUTE )
 {
@@ -54,7 +53,7 @@ CON_COMMAND_F( changeteam, "Choose a new team", FCVAR_SERVER_CAN_EXECUTE|FCVAR_C
 
 	if ( pPlayer && pPlayer->CanShowTeamMenu() )
 	{
-		GetViewPortInterface()->ShowPanel( PANEL_TEAM, true );
+		gViewPortInterface->ShowPanel( PANEL_TEAM, true );
 	}
 }
 #endif // SDK_USE_TEAMS
@@ -70,14 +69,14 @@ CON_COMMAND_F( changeclass, "Choose a new class", FCVAR_SERVER_CAN_EXECUTE|FCVAR
 		{
 #if defined ( SDK_USE_TEAMS )
 		case SDK_TEAM_BLUE:
-			GetViewPortInterface()->ShowPanel( PANEL_CLASS_BLUE, true );
+			gViewPortInterface->ShowPanel( PANEL_CLASS_BLUE, true );
 			break;
 		case SDK_TEAM_RED:
-			GetViewPortInterface()->ShowPanel( PANEL_CLASS_RED, true );
+			gViewPortInterface->ShowPanel( PANEL_CLASS_RED, true );
 			break;
 #else
 		case TEAM_UNASSIGNED:
-			GetViewPortInterface()->ShowPanel( PANEL_CLASS, true );
+			gViewPortInterface->ShowPanel( PANEL_CLASS, true );
 			break;
 #endif
 		default:
@@ -90,8 +89,8 @@ CON_COMMAND_F( changeclass, "Choose a new class", FCVAR_SERVER_CAN_EXECUTE|FCVAR
 
 CON_COMMAND_F( spec_help, "Show spectator help screen", FCVAR_CLIENTCMD_CAN_EXECUTE)
 {
-	if ( GetViewPortInterface() )
-		GetViewPortInterface()->ShowPanel( PANEL_INFO, true );
+	if ( gViewPortInterface )
+		gViewPortInterface->ShowPanel( PANEL_INFO, true );
 }
 
 CON_COMMAND_F( spec_menu, "Activates spectator menu", FCVAR_CLIENTCMD_CAN_EXECUTE)
@@ -108,28 +107,28 @@ CON_COMMAND_F( spec_menu, "Activates spectator menu", FCVAR_CLIENTCMD_CAN_EXECUT
 		 bShowIt = atoi( args[ 1 ] ) == 1;
 	}
 	
-	if ( GetViewPortInterface() )
-		GetViewPortInterface()->ShowPanel( PANEL_SPECMENU, bShowIt );
+	if ( gViewPortInterface )
+		gViewPortInterface->ShowPanel( PANEL_SPECMENU, bShowIt );
 }
 
 CON_COMMAND_F( togglescores, "Toggles score panel", FCVAR_CLIENTCMD_CAN_EXECUTE)
 {
-	if ( !GetViewPortInterface() )
+	if ( !gViewPortInterface )
 		return;
 	
-	IViewPortPanel *scoreboard = GetViewPortInterface()->FindPanelByName( PANEL_SCOREBOARD );
+	IViewPortPanel *scoreboard = gViewPortInterface->FindPanelByName( PANEL_SCOREBOARD );
 
 	if ( !scoreboard )
 		return;
 
 	if ( scoreboard->IsVisible() )
 	{
-		GetViewPortInterface()->ShowPanel( scoreboard, false );
+		gViewPortInterface->ShowPanel( scoreboard, false );
 		GetClientVoiceMgr()->StopSquelchMode();
 	}
 	else
 	{
-		GetViewPortInterface()->ShowPanel( scoreboard, true );
+		gViewPortInterface->ShowPanel( scoreboard, true );
 	}
 }
 
@@ -137,7 +136,7 @@ void SDKViewport::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
 
-	GetHud().InitColors( pScheme );
+	gHUD.InitColors( pScheme );
 
 	SetPaintBackgroundEnabled( false );
 }
@@ -205,8 +204,6 @@ void SDKViewport::CreateDefaultPanels( void )
 #if defined ( SDK_USE_TEAMS )
 	AddNewPanel( CreatePanelByName( PANEL_TEAM ), "PANEL_TEAM" );
 #endif
-
-	//Msg( "created SDKViewport Panels\n");
 	BaseClass::CreateDefaultPanels();
 }
 
@@ -214,7 +211,7 @@ int SDKViewport::GetDeathMessageStartHeight( void )
 {
 	int x = YRES(2);
 
-	IViewPortPanel *spectator = GetViewPortInterface()->FindPanelByName( PANEL_SPECGUI );
+	IViewPortPanel *spectator = gViewPortInterface->FindPanelByName( PANEL_SPECGUI );
 
 	//TODO: Link to actual height of spectator bar
 	if ( spectator && spectator->IsVisible() )

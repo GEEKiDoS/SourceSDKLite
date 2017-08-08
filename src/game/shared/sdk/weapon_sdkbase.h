@@ -12,7 +12,6 @@
  
 #include "sdk_playeranimstate.h"
 #include "sdk_weapon_parse.h"
-#include "sdk_shareddefs.h"
  
 #if defined( CLIENT_DLL )
 	#define CWeaponSDKBase C_WeaponSDKBase
@@ -38,7 +37,7 @@ public:
 	#endif
 	// All predicted weapons need to implement and return true
 	virtual bool	IsPredicted() const { return true; }
-	virtual int GetWeaponID( void ) const { return WEAPON_NONE; }
+	virtual SDKWeaponID GetWeaponID( void ) const { return WEAPON_NONE; }
  
 	// Get SDK weapon specific weapon data.
 	CSDKWeaponInfo const	&GetSDKWpnData() const;
@@ -77,7 +76,7 @@ public:
  
 	virtual float GetFireRate( void ) { return GetSDKWpnData().m_flCycleTime; };
  
-	//Tony; by default, burst fire weapons use a MAX of 3 shots (3 - 1)
+	//Tony; by default, burst fire weapons use a max of 3 shots (3 - 1)
 	//weapons with more, ie: a 5 round burst, can override and determine which firemode it's in.
 	virtual int MaxBurstShots() const { return 2; }
  

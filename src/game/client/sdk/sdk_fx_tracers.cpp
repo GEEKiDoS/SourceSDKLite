@@ -13,7 +13,7 @@
 #include "particles_localspace.h"
 #include "dlight.h"
 #include "iefx.h"
-//#include "ClientEffectPrecacheSystem.h"
+#include "ClientEffectPrecacheSystem.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -33,4 +33,4 @@ void GaussTracerCallback( const CEffectData &data )
 	FX_GaussTracer( (Vector&)data.m_vStart, (Vector&)data.m_vOrigin, flVelocity, bWhiz );
 }
 
-DECLARE_CLIENT_EFFECT( GaussTracer, GaussTracerCallback );
+DECLARE_CLIENT_EFFECT( "GaussTracer", GaussTracerCallback );

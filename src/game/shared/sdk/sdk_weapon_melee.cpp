@@ -105,7 +105,7 @@ void CWeaponSDKMelee::PrimaryAttack()
 	CSDKPlayer *pPlayer = ToSDKPlayer( GetPlayerOwner() );
 	pPlayer->NoteWeaponFired();
 	// Move other players back to history positions based on local player's lag
-	lagcompensation->StartLagCompensation( pPlayer, LAG_COMPENSATE_BOUNDS );
+	lagcompensation->StartLagCompensation( pPlayer, pPlayer->GetCurrentCommand() );
 #endif
 	Swing( false );
 
@@ -229,12 +229,12 @@ bool CWeaponSDKMelee::ImpactWater( const Vector &start, const Vector &end )
 	//		 right now anyway...
 	
 	// We must start outside the water
-	//if ( UTIL_PointContents( start ) & (CONTENTS_WATER|CONTENTS_SLIME))
-	//	return false;
+	if ( UTIL_PointContents( start ) & (CONTENTS_WATER|CONTENTS_SLIME))
+		return false;
 
-	//// We must end inside of water
-	//if ( !(UTIL_PointContents( end ) & (CONTENTS_WATER|CONTENTS_SLIME)))
-	//	return false;
+	// We must end inside of water
+	if ( !(UTIL_PointContents( end ) & (CONTENTS_WATER|CONTENTS_SLIME)))
+		return false;
 
 	trace_t	waterTrace;
 

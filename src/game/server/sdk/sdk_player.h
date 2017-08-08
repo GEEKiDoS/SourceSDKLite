@@ -180,8 +180,6 @@ private:
 	bool	m_bTeamChanged;		//have we changed teams this spawn? Used to enforce one team switch per death rule
 #endif
 
-	bool BecomeRagdollOnClient( const Vector &force );
-
 #if defined ( SDK_USE_PLAYERCLASSES )
 	bool HandleCommand_JoinClass( int iClass );
 	void ShowClassSelectMenu();

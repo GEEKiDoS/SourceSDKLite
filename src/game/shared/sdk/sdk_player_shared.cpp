@@ -9,7 +9,7 @@
 #include "sdk_gamerules.h"
 
 #include "takedamageinfo.h"
-#include "sdk_shareddefs.h"
+
 #include "effect_dispatch_data.h"
 #include "weapon_sdkbase.h"
 #include "movevars_shared.h"
@@ -70,7 +70,7 @@ void CSDKPlayer::FireBullet(
 
 	float flMaxRange = 8000;
 
-	Vector vecEnd = vecSrc + vecDir * flMaxRange; // MAX bullet range is 10000 units
+	Vector vecEnd = vecSrc + vecDir * flMaxRange; // max bullet range is 10000 units
 
 	trace_t tr; // main enter bullet trace
 
@@ -570,7 +570,7 @@ void CSDKPlayer::InitSpeeds()
 	m_Shared.m_flRunSpeed = SDK_DEFAULT_PLAYER_RUNSPEED;
 	m_Shared.m_flSprintSpeed = SDK_DEFAULT_PLAYER_SPRINTSPEED;
 	m_Shared.m_flProneSpeed = SDK_DEFAULT_PLAYER_PRONESPEED;
-	// Set the absolute MAX to sprint speed
+	// Set the absolute max to sprint speed
 	SetMaxSpeed( m_Shared.m_flSprintSpeed ); 
 	return;
 #endif
@@ -596,7 +596,7 @@ void CSDKPlayer::InitSpeeds()
 			m_Shared.m_flProneSpeed = pClassInfo.m_flProneSpeed;
 		}
 
-		// Set the absolute MAX to sprint speed
+		// Set the absolute max to sprint speed
 		SetMaxSpeed( m_Shared.m_flSprintSpeed ); 
 #endif // SDK_USE_PLAYERCLASSES
 }

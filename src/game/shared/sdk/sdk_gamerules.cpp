@@ -33,7 +33,6 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-ConVar mm_max_players( "mm_max_players", "4", FCVAR_REPLICATED | FCVAR_CHEAT, "Max players for matchmaking system" );
 
 #ifndef CLIENT_DLL
 
@@ -123,8 +122,8 @@ ConVar mp_limitteams(
 	"2", 
 	FCVAR_REPLICATED | FCVAR_NOTIFY,
 	"Max # of players 1 team can have over another (0 disables check)",
-	true, 0,	// MIN value
-	true, 30	// MAX value
+	true, 0,	// min value
+	true, 30	// max value
 );
 
 static CSDKViewVectors g_SDKViewVectors(
@@ -386,7 +385,7 @@ void CSDKGameRules::RadiusDamage( const CTakeDamageInfo &info, const Vector &vec
 	else
 		falloff = 1.0;
 
-	int bInWater = (UTIL_PointContents ( vecSrc ,MASK_WATER) ) ? true : false;
+	int bInWater = (UTIL_PointContents ( vecSrc ) & MASK_WATER) ? true : false;
 
 	vecSrc.z += 1;// in case grenade is lying on the ground
 
@@ -1149,12 +1148,7 @@ bool CSDKGameRules::ShouldCollide( int collisionGroup0, int collisionGroup1 )
 	if ( collisionGroup0 > collisionGroup1 )
 	{
 		// swap so that lowest is always first
-		//swap(collisionGroup0,collisionGroup1);
-
-		// swap so that lowest is always first
-		int tmp = collisionGroup0;
-		collisionGroup0 = collisionGroup1;
-		collisionGroup1 = tmp;
+		swap(collisionGroup0,collisionGroup1);
 	}
 
 	//Don't stand on COLLISION_GROUP_WEAPON
@@ -1215,18 +1209,18 @@ CAmmoDef* GetAmmoDef()
 	{
 		bInitted = true;
 
-		for (int i=WEAPON_NONE+1;i<SDK_WEAPON_MAX;i++)
+		for (int i=WEAPON_NONE+1;i<WEAPON_MAX;i++)
 		{
 			//Tony; ignore grenades, shotgun and the crowbar, grenades and shotgun are handled seperately because of their damage type not being DMG_BULLET.
 			if (i == SDK_WEAPON_GRENADE || i == SDK_WEAPON_CROWBAR || i == SDK_WEAPON_SHOTGUN)
 				continue;
 
-			def.AddAmmoType( WeaponIDToAlias(i), DMG_BULLET, TRACER_LINE_AND_WHIZ, 0, 0, 200/*MAX carry*/, 1, 0 );
+			def.AddAmmoType( WeaponIDToAlias(i), DMG_BULLET, TRACER_LINE_AND_WHIZ, 0, 0, 200/*max carry*/, 1, 0 );
 		}
 
 		// def.AddAmmoType( BULLET_PLAYER_50AE,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_50AE_max",		2400, 0, 10, 14 );
-		def.AddAmmoType( "shotgun", DMG_BUCKSHOT, TRACER_NONE, 0, 0,	200/*MAX carry*/, 1, 0 );
-		def.AddAmmoType( "grenades", DMG_BLAST, TRACER_NONE, 0, 0,	4/*MAX carry*/, 1, 0 );
+		def.AddAmmoType( "shotgun", DMG_BUCKSHOT, TRACER_NONE, 0, 0,	200/*max carry*/, 1, 0 );
+		def.AddAmmoType( "grenades", DMG_BLAST, TRACER_NONE, 0, 0,	4/*max carry*/, 1, 0 );
 
 		//Tony; added for the sdk_jeep
 		def.AddAmmoType( "JeepAmmo",	DMG_SHOCK,					TRACER_NONE,			"sdk_jeep_weapon_damage",		"sdk_jeep_weapon_damage", "sdk_jeep_max_rounds", BULLET_IMPULSE(650, 8000), 0 );

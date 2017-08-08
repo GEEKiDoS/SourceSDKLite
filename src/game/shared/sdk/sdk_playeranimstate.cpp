@@ -171,7 +171,7 @@ void CSDKPlayerAnimState::Update( float eyeYaw, float eyePitch )
 	}
 
 #ifdef CLIENT_DLL 
-//	if ( C_BasePlayer::ShouldDrawLocalPlayer() )
+	if ( C_BasePlayer::ShouldDrawLocalPlayer() )
 	{
 		m_pSDKPlayer->SetPlaybackRate( 1.0f );
 	}
@@ -421,7 +421,7 @@ void CSDKPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t event, int nData )
 			pWeapon->EnsureCorrectRenderingModel();
 			pWeapon->SendWeaponAnim( iGestureActivity );
 			// Force animation events!
-//			pWeapon->ResetEventsParity();		// reset event parity so the animation events will occur on the weapon. 
+			pWeapon->ResetEventsParity();		// reset event parity so the animation events will occur on the weapon. 
 			pWeapon->DoAnimationEvents( pWeapon->GetModelPtr() );
 		}
 	}
@@ -522,7 +522,7 @@ bool CSDKPlayerAnimState::HandleProneTransition( Activity &idealActivity )
 }
 #endif // SDK_USE_PRONE
 
-//#if defined ( SDK_USE_SPRINTING )
+#if defined ( SDK_USE_SPRINTING )
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : *idealActivity - 
@@ -539,7 +539,7 @@ bool CSDKPlayerAnimState::HandleSprinting( Activity &idealActivity )
 	
 	return false;
 }
-//#endif // SDK_USE_SPRINTING
+#endif // SDK_USE_SPRINTING
 //-----------------------------------------------------------------------------
 // Purpose: 
 bool CSDKPlayerAnimState::HandleJumping( Activity &idealActivity )

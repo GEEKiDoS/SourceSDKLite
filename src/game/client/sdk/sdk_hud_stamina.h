@@ -14,7 +14,7 @@
 #include "hud_numericdisplay.h"
 #include <vgui_controls/Panel.h>
 
-//#if defined ( SDK_USE_STAMINA ) || defined ( SDK_USE_SPRINTING )
+#if defined ( SDK_USE_STAMINA ) || defined ( SDK_USE_SPRINTING )
 //-----------------------------------------------------------------------------
 // Purpose: Shows the sprint power bar
 //-----------------------------------------------------------------------------
@@ -53,5 +53,5 @@ private:
 	float m_flStamina;
 	int m_flStaminaLow;
 };	
-//#endif // SDK_USE_STAMINA || SDK_USE_SPRINTING
+#endif // SDK_USE_STAMINA || SDK_USE_SPRINTING
 #endif // SDK_HUD_STAMINA_H

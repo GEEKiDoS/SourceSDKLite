@@ -53,9 +53,9 @@ public:
 	bool	HandleProneTransition( Activity &idealActivity );
 #endif
 
-//#if defined ( SDK_USE_SPRINTING )
+#if defined ( SDK_USE_SPRINTING )
 	bool	HandleSprinting( Activity &idealActivity );
-//#endif
+#endif
 
 	//Tony; overriding because the SDK Player models pose parameter is flipped the opposite direction
 	virtual void		ComputePoseParam_MoveYaw( CStudioHdr *pStudioHdr );

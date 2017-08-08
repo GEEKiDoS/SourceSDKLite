@@ -36,7 +36,7 @@ public:
 	virtual bool Reload();
 	virtual void WeaponIdle();
 
-	virtual int GetWeaponID( void ) const		{ return SDK_WEAPON_SHOTGUN; }
+	virtual SDKWeaponID GetWeaponID( void ) const		{ return SDK_WEAPON_SHOTGUN; }
 	virtual float GetWeaponSpread() { return 0.04362f; }
 
 

@@ -84,8 +84,8 @@ END_NETWORK_TABLE()
 //				}
 			}
 		}
-		return 0;
-		//return BaseClass::DrawModel( flags );
+
+		return BaseClass::DrawModel( flags );
 	}
 
 	void CBaseGrenadeProjectile::Spawn()

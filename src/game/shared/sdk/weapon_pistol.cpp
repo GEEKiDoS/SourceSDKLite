@@ -29,7 +29,7 @@ public:
 	
 	CWeaponPistol();
 
-	virtual int GetWeaponID( void ) const		{ return SDK_WEAPON_PISTOL; }
+	virtual SDKWeaponID GetWeaponID( void ) const		{ return SDK_WEAPON_PISTOL; }
 	virtual int GetFireMode() const { return FM_SEMIAUTOMATIC; }
 
 private:

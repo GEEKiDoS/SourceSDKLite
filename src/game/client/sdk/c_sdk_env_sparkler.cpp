@@ -191,4 +191,4 @@ void SparkleCallback( const CEffectData &data )
 }
 
 // This links our server-side call to a client-side function
-DECLARE_CLIENT_EFFECT( Sparkle, SparkleCallback );
+DECLARE_CLIENT_EFFECT( "Sparkle", SparkleCallback );

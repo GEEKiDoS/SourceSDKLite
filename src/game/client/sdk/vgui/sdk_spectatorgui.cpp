@@ -20,7 +20,6 @@
 #include <vgui_controls/AnimationController.h>
 #include "voice_status.h"
 #include "c_sdk_player.h"
-#include "mapoverview.h"
 
 using namespace vgui;
 DECLARE_HUDELEMENT( CSDKMapOverview )
@@ -229,8 +228,8 @@ void CSDKSpectatorGUI::ResizeControls( void )
 	m_pRedScore->GetContentSize( wTer, hTer );
 	
 	int desiredScoreWidth = m_scoreWidth;
-	desiredScoreWidth = MAX( desiredScoreWidth, wCT );
-	desiredScoreWidth = MAX( desiredScoreWidth, wTer );
+	desiredScoreWidth = max( desiredScoreWidth, wCT );
+	desiredScoreWidth = max( desiredScoreWidth, wTer );
 
 	int diff = desiredScoreWidth - w1;
 	if ( diff != 0 )
@@ -256,7 +255,7 @@ void CSDKSpectatorGUI::ResizeControls( void )
 	m_pExtraInfo->GetContentSize( wExtra, hExtra );
 
 	int desiredExtraWidth = m_extraInfoWidth;
-	desiredExtraWidth = MAX( desiredExtraWidth, wExtra );
+	desiredExtraWidth = max( desiredExtraWidth, wExtra );
 
 	diff = desiredExtraWidth - w1;
 	if ( diff != 0 )
@@ -464,7 +463,7 @@ bool CSDKMapOverview::CanPlayerBeSeen( MapPlayer_t *player )
 
 CSDKMapOverview::CSDKMapOverview( const char *pElementName ) : BaseClass( pElementName )
 {
-//	g_pMapOverview = this;  // for cvars access etc
+	g_pMapOverview = this;  // for cvars access etc
 
 	switch ( overview_preferred_mode.GetInt() )
 	{
@@ -489,7 +488,7 @@ void CSDKMapOverview::Init( void )
 
 CSDKMapOverview::~CSDKMapOverview()
 {
-//	g_pMapOverview = NULL;
+	g_pMapOverview = NULL;
 
 	//TODO release Textures ? clear lists
 }
@@ -1053,7 +1052,7 @@ void CSDKMapOverview::SetMode(int mode)
 
 		float desiredZoom = (overview_preferred_view_size.GetFloat() * m_fMapScale) / (OVERVIEW_MAP_SIZE * m_fFullZoom);
 
-		GetClientMode()->GetViewportAnimationController()->RunAnimationCommand( this, "zoom", desiredZoom, 0.0f, 0.2f, vgui::AnimationController::INTERPOLATOR_LINEAR );
+		g_pClientMode->GetViewportAnimationController()->RunAnimationCommand( this, "zoom", desiredZoom, 0.0f, 0.2f, vgui::AnimationController::INTERPOLATOR_LINEAR );
 	}
 	else 
 	{
@@ -1061,7 +1060,7 @@ void CSDKMapOverview::SetMode(int mode)
 
 		float desiredZoom = 1.0f;
 
-		GetClientMode()->GetViewportAnimationController()->RunAnimationCommand( this, "zoom", desiredZoom, 0.0f, 0.2f, vgui::AnimationController::INTERPOLATOR_LINEAR );
+		g_pClientMode->GetViewportAnimationController()->RunAnimationCommand( this, "zoom", desiredZoom, 0.0f, 0.2f, vgui::AnimationController::INTERPOLATOR_LINEAR );
 	}
 
 	BaseClass::SetMode(mode);

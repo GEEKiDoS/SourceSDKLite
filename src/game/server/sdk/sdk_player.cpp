@@ -17,8 +17,6 @@
 #include "GameStats.h"
 #include "obstacle_pushaway.h"
 #include "in_buttons.h"
-#include "physics_prop_ragdoll.h"
-#include "particle_parse.h"
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -579,13 +577,15 @@ int CSDKPlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 	float flArmorRatio = 0.5f;
 	float flDamage = info.GetDamage();
 
+	//Tony; re-work this so if you're not dealing with teams at all, you can still be hurt by the world.
+	//and that it always runs through here if friendly fire is off.
 	bool bCheckFriendlyFire = false;
 	bool bFriendlyFire = friendlyfire.GetBool();
 	//Tony; only check teams in teamplay
-	if ( gpGlobals->teamplay )
+	if ( gpGlobals->teamplay && bFriendlyFire )
 		bCheckFriendlyFire = true;
 
-	if ( bFriendlyFire || ( bCheckFriendlyFire && pInflictor->GetTeamNumber() != GetTeamNumber() ) || pInflictor == this ||	info.GetAttacker() == this )
+	if ( !bCheckFriendlyFire || ( bCheckFriendlyFire && pInflictor->GetTeamNumber() != GetTeamNumber() ) || pInflictor == this || info.GetAttacker() == this )
 	{
 		if ( bFriendlyFire && (info.GetDamageType() & DMG_BLAST) == 0 )
 		{
@@ -673,8 +673,8 @@ int CSDKPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	if ( event )
 	{
 		event->SetInt("userid", GetUserID() );
-		event->SetInt("health", MAX(0, m_iHealth) );
-		event->SetInt("armor", MAX(0, ArmorValue()) );
+		event->SetInt("health", max(0, m_iHealth) );
+		event->SetInt("armor", max(0, ArmorValue()) );
 
 		if ( info.GetDamageType() & DMG_BLAST )
 		{
@@ -733,48 +733,6 @@ int CSDKPlayer::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	return 1;
 }
 
-ConVar c_server_ragdoll("c_server_ragdoll", "0", FCVAR_CHEAT, "If set, players will have server ragdolls instead of clientside ones.");
-
-bool CSDKPlayer::BecomeRagdollOnClient( const Vector &force )
-{
-	if ( !CanBecomeRagdoll() ) 
-		return false;
-
-	// Become server-side ragdoll if we're flagged to do it
-	//if ( m_spawnflags & SF_ANTLIONGUARD_SERVERSIDE_RAGDOLL )
-	if (c_server_ragdoll.GetBool())
-	{
-		CTakeDamageInfo	info;
-
-		// Fake the info
-		info.SetDamageType( DMG_GENERIC );
-		info.SetDamageForce( force );
-		info.SetDamagePosition( WorldSpaceCenter() );		
-		IPhysicsObject *pPhysics = VPhysicsGetObject();
-		if ( pPhysics )
-		{
-			VPhysicsDestroyObject();
-		}
-		CBaseEntity *pRagdoll = CreateServerRagdoll( this, m_nForceBone, info, COLLISION_GROUP_INTERACTIVE_DEBRIS, true );
-		FixupBurningServerRagdoll( pRagdoll );
-		PhysSetEntityGameFlags( pRagdoll, FVPHYSICS_NO_SELF_COLLISIONS );
-
-		//CBaseEntity *pRagdoll = CreateServerRagdoll( this, 0, info, COLLISION_GROUP_NONE );
-
-		// Transfer our name to the new ragdoll
-		pRagdoll->SetName( GetEntityName() );
-		//pRagdoll->SetCollisionGroup( COLLISION_GROUP_DEBRIS );
-		
-		// Get rid of our old body
-		//UTIL_Remove(this);
-		RemoveDeferred();
-
-		return true;
-	}
-
-	return BaseClass::BecomeRagdollOnClient( force );
-}
-
 void CSDKPlayer::Event_Killed( const CTakeDamageInfo &info )
 {
 	ThrowActiveWeapon();
@@ -794,7 +752,7 @@ void CSDKPlayer::Event_Killed( const CTakeDamageInfo &info )
 
 	// Note: since we're dead, it won't draw us on the client, but we don't set EF_NODRAW
 	// because we still want to transmit to the clients in our PVS.
-	//CreateRagdollEntity();
+	CreateRagdollEntity();
 
 	State_Transition( STATE_DEATH_ANIM );	// Transition into the dying state.
 
@@ -929,7 +887,7 @@ void CSDKPlayer::DoAnimationEvent( PlayerAnimEvent_t event, int nData )
 
 CWeaponSDKBase* CSDKPlayer::GetActiveSDKWeapon() const
 {
-	return static_cast< CWeaponSDKBase* >( GetActiveWeapon() );
+	return dynamic_cast< CWeaponSDKBase* >( GetActiveWeapon() );
 }
 
 void CSDKPlayer::CreateViewModel( int index /*=0*/ )
@@ -1078,7 +1036,7 @@ bool CSDKPlayer::ClientCommand( const CCommand &args )
 #endif
 		return true;
 	}
-	else if ( FStrEq( pcmd, "drop" ) )
+	else if ( FStrEq( pcmd, "droptest" ) )
 	{
 		ThrowActiveWeapon();
 		return true;
@@ -1441,7 +1399,6 @@ void CSDKPlayer::State_Enter_WELCOME()
 		ShowViewPortPanel( PANEL_INFO, true, data );
 
 		data->deleteThis();
-
 
 	}	
 }

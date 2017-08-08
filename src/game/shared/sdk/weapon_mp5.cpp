@@ -29,7 +29,7 @@ public:
 	
 	CWeaponMP5();
 
-	virtual int GetWeaponID( void ) const		{ return SDK_WEAPON_MP5; }
+	virtual SDKWeaponID GetWeaponID( void ) const		{ return SDK_WEAPON_MP5; }
 
 private:
 

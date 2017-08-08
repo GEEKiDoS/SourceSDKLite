@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Game-specific impact effect hooks
 //
@@ -38,7 +38,7 @@ void ImpactJeepCallback( const CEffectData &data )
 	PlayImpactSound( pEntity, tr, vecOrigin, nSurfaceProp );
 }
 
-DECLARE_CLIENT_EFFECT( ImpactJeep, ImpactJeepCallback );
+DECLARE_CLIENT_EFFECT( "ImpactJeep", ImpactJeepCallback );
 
 
 //-----------------------------------------------------------------------------
@@ -71,7 +71,7 @@ void ImpactGaussCallback( const CEffectData &data )
 	PlayImpactSound( pEntity, tr, vecOrigin, nSurfaceProp );
 }
 
-DECLARE_CLIENT_EFFECT( ImpactGauss, ImpactGaussCallback );
+DECLARE_CLIENT_EFFECT( "ImpactGauss", ImpactGaussCallback );
 
 //-----------------------------------------------------------------------------
 // Purpose: Handle weapon impacts

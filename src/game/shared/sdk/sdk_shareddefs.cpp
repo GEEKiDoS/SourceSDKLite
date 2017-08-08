@@ -107,8 +107,10 @@ int AliasToWeaponID( const char *alias )
 //
 const char *WeaponIDToAlias( int id )
 {
-	if ( (id >= SDK_WEAPON_MAX) || (id < 0) )
+	if ( (id >= WEAPON_MAX) || (id < 0) )
 		return NULL;
 
 	return s_WeaponAliasInfo[id];
 }
+
+

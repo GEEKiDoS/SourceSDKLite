@@ -85,24 +85,24 @@ void CSDKHudArmor::OnThink( void )
 	if ( local )
 	{
 		// Never below zero
-		newArmor = MAX( local->GetArmorValue(), 0 );
+		newArmor = max( local->GetArmorValue(), 0 );
 	}
 	if ( m_iArmor == newArmor )
 		return;
 
 	if ( !newArmor )
 	{
-	 	GetClientMode()->GetViewportAnimationController()->StartAnimationSequence("SuitPowerZero");
+	 	g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("SuitPowerZero");
 	}
 	else if ( newArmor < m_iArmor )
 	{
 		// battery power has decreased, so play the damaged animation
-		GetClientMode()->GetViewportAnimationController()->StartAnimationSequence("SuitDamageTaken");
+		g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("SuitDamageTaken");
 
 		// play an extra animation if we're super low
 		if ( newArmor < 20 )
 		{
-			GetClientMode()->GetViewportAnimationController()->StartAnimationSequence("SuitArmorLow");
+			g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("SuitArmorLow");
 		}
 	}
 	else
@@ -110,11 +110,11 @@ void CSDKHudArmor::OnThink( void )
 		// battery power has increased (if we had no previous armor, or if we just loaded the game, don't use alert state)
 		if ( m_iArmor == INIT_ARMOR || m_iArmor == 0 || newArmor >= 20)
 		{
-			GetClientMode()->GetViewportAnimationController()->StartAnimationSequence("SuitPowerIncreasedAbove20");
+			g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("SuitPowerIncreasedAbove20");
 		}
 		else
 		{
-			GetClientMode()->GetViewportAnimationController()->StartAnimationSequence("SuitPowerIncreasedBelow20");
+			g_pClientMode->GetViewportAnimationController()->StartAnimationSequence("SuitPowerIncreasedBelow20");
 		}
 	}
 

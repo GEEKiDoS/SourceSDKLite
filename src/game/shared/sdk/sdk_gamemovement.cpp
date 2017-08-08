@@ -197,7 +197,7 @@ void CSDKGameMovement::CheckParameters( void )
 		maxspeed = mv->m_flClientMaxSpeed;
 		if ( maxspeed != 0.0 )
 		{
-			mv->m_flMaxSpeed = MIN( maxspeed, mv->m_flMaxSpeed );
+			mv->m_flMaxSpeed = min( maxspeed, mv->m_flMaxSpeed );
 		}
 
 		// Slow down by the speed factor
@@ -290,7 +290,7 @@ void CSDKGameMovement::CheckParameters( void )
 	{
 		Vector vel = m_pSDKPlayer->GetAbsVelocity();
 		float actual_speed = sqrt( vel.x * vel.x + vel.y * vel.y );
-		Msg( "player speed %.1f ( MAX: %f ) \n",actual_speed, mv->m_flClientMaxSpeed );
+		Msg( "player speed %.1f ( max: %f ) \n",actual_speed, mv->m_flClientMaxSpeed );
 	}
 }
 void CSDKGameMovement::CheckFalling( void )
@@ -402,7 +402,7 @@ void CSDKGameMovement::WalkMove( void )
 	}
 
 	
-	// Now reduce their backwards speed to some percent of MAX, if they are travelling backwards unless they are under some minimum
+	// Now reduce their backwards speed to some percent of max, if they are travelling backwards unless they are under some minimum
 	if ( sdk_clamp_back_speed.GetFloat() < 1.0 && VectorLength( mv->m_vecVelocity ) > sdk_clamp_back_speed_min.GetFloat() )
 	{
 		float flDot = DotProduct( vecForward, mv->m_vecVelocity );
@@ -413,7 +413,7 @@ void CSDKGameMovement::WalkMove( void )
 			Vector vecBackMove = vecForward * flDot;
 			Vector vecRightMove = vecRight * DotProduct( vecRight, mv->m_vecVelocity );
 
-			// clamp the back move vector if it is faster than MAX
+			// clamp the back move vector if it is faster than max
 			float flBackSpeed = VectorLength( vecBackMove );
 			float flMaxBackSpeed = ( mv->m_flMaxSpeed * sdk_clamp_back_speed.GetFloat() );
 
@@ -480,10 +480,8 @@ void CSDKGameMovement::WalkMove( void )
 }
 
 extern void TracePlayerBBoxForGround( const Vector& start, const Vector& end, const Vector& minsSrc,
-							  const Vector& maxsSrc, IHandleEntity *player, unsigned int fMask,
-							  int collisionGroup, trace_t& pm );
-
-
+									 const Vector& maxsSrc, IHandleEntity *player, unsigned int fMask,
+									 int collisionGroup, trace_t& pm );
 
 void CSDKGameMovement::CategorizePosition( void )
 {
@@ -537,7 +535,7 @@ void CSDKGameMovement::CategorizePosition( void )
 	if ( trace.plane.normal.z < 0.7f )
 	{
 		// Test four sub-boxes, to see if any of them would have found shallower slope we could actually stand on.
-		TracePlayerBBoxForGround( vecStartPos, vecEndPos, GetPlayerMins(), GetPlayerMaxs(), mv->m_nPlayerHandle.Get(), PlayerSolidMask(), COLLISION_GROUP_PLAYER_MOVEMENT, trace);
+		TracePlayerBBoxForGround( vecStartPos, vecEndPos, GetPlayerMins(), GetPlayerMaxs(), mv->m_nPlayerHandle.Get(), PlayerSolidMask(), COLLISION_GROUP_PLAYER_MOVEMENT, trace );
 		if ( trace.plane.normal[2] < 0.7f )
 		{
 			// Too steep.
@@ -914,7 +912,7 @@ void CSDKGameMovement::FinishUnDuck( void )
 	player->RemoveFlag( FL_DUCKING );
 	player->m_Local.m_bDucking  = false;
 	player->SetViewOffset( GetPlayerViewOffset( false ) );
-	player->m_Local.m_nDuckTimeMsecs = 0;
+	player->m_Local.m_flDucktime = 0;
 	
 	mv->SetAbsOrigin( newOrigin );
 
@@ -1014,7 +1012,7 @@ void CSDKGameMovement::FinishUnProne( void )
 		if ( mv->m_nButtons & IN_DUCK && !( player->GetFlags() & FL_DUCKING ) )
 		{
 			// Use 1 second so super long jump will work
-			player->m_Local.m_nDuckTimeMsecs = 1000;
+			player->m_Local.m_flDucktime = 1000;
 			player->m_Local.m_bDucking    = true;
 		}
 	}
@@ -1100,7 +1098,7 @@ void CSDKGameMovement::Duck( void )
 		// the information that we let go of the duck key has been lost by now.
 		if ( m_pSDKPlayer->m_bUnProneToDuck )
 		{
-            player->m_Local.m_nDuckTimeMsecs = 1000;
+            player->m_Local.m_flDucktime = 1000;
 			player->m_Local.m_bDucking    = true;
 		}
 
@@ -1185,7 +1183,7 @@ void CSDKGameMovement::Duck( void )
 		// simulate a duck that was pressed while we were prone
 		player->AddFlag( FL_DUCKING );
 		player->m_Local.m_bDucked = true;
-		player->m_Local.m_nDuckTimeMsecs = 1000;
+		player->m_Local.m_flDucktime = 1000;
 		player->m_Local.m_bDucking    = true;
 	}
 
@@ -1214,14 +1212,14 @@ void CSDKGameMovement::Duck( void )
 			if ( (buttonsPressed & IN_DUCK ) && !( player->GetFlags() & FL_DUCKING ) )
 			{
 				// Use 1 second so super long jump will work
-				player->m_Local.m_nDuckTimeMsecs = 1000;
+				player->m_Local.m_flDucktime = 1000;
 				player->m_Local.m_bDucking    = true;
 			}
 
-			float duckmilliseconds = MAX( 0.0f, 1000.0f - (float)player->m_Local.m_nDuckTimeMsecs );
+			float duckmilliseconds = max( 0.0f, 1000.0f - (float)player->m_Local.m_flDucktime );
 			float duckseconds = duckmilliseconds / 1000.0f;
 
-			//time = MAX( 0.0, ( 1.0 - (float)player->m_Local.m_nDuckTimeMsecs / 1000.0 ) );
+			//time = max( 0.0, ( 1.0 - (float)player->m_Local.m_flDucktime / 1000.0 ) );
 			
 			if ( player->m_Local.m_bDucking )
 			{
@@ -1249,11 +1247,11 @@ void CSDKGameMovement::Duck( void )
 				if ( (buttonsReleased & IN_DUCK ) && ( player->GetFlags() & FL_DUCKING ) )
 				{
 					// Use 1 second so super long jump will work
-					player->m_Local.m_nDuckTimeMsecs = 1000;
+					player->m_Local.m_flDucktime = 1000;
 					player->m_Local.m_bDucking    = true;  // or unducking
 				}
 
-				float duckmilliseconds = MAX( 0.0f, 1000.0f - (float)player->m_Local.m_nDuckTimeMsecs );
+				float duckmilliseconds = max( 0.0f, 1000.0f - (float)player->m_Local.m_flDucktime );
 				float duckseconds = duckmilliseconds / 1000.0f;
 
 				if ( CanUnduck() )
@@ -1279,7 +1277,7 @@ void CSDKGameMovement::Duck( void )
 				{
 					// Still under something where we can't unduck, so make sure we reset this timer so
 					//  that we'll unduck once we exit the tunnel, etc.
-					player->m_Local.m_nDuckTimeMsecs	= 1000;
+					player->m_Local.m_flDucktime	= 1000;
 				}
 			}
 		}

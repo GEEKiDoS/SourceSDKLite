@@ -310,7 +310,7 @@ void C_SDKRagdoll::CreateRagdoll()
 			Interp_Copy( pPlayer );
 
 			SetAbsAngles( pPlayer->GetRenderAngles() );
-			GetRotationInterpolator().Reset(0.0f);
+			GetRotationInterpolator().Reset();
 
 			m_flAnimTime = pPlayer->m_flAnimTime;
 			SetSequence( pPlayer->GetSequence() );
@@ -360,12 +360,11 @@ void C_SDKRagdoll::CreateRagdoll()
 	if ( cl_ragdoll_physics_enable.GetInt() )
 	{
 		// Make us a ragdoll..
-		//m_nRenderFX = kRenderFxRagdoll;
-		//SetRenderMode(kRenderFxRagdoll);
+		m_nRenderFX = kRenderFxRagdoll;
 
-		matrix3x4a_t boneDelta0[MAXSTUDIOBONES];
-		matrix3x4a_t boneDelta1[MAXSTUDIOBONES];
-		matrix3x4a_t currentBones[MAXSTUDIOBONES];
+		matrix3x4_t boneDelta0[MAXSTUDIOBONES];
+		matrix3x4_t boneDelta1[MAXSTUDIOBONES];
+		matrix3x4_t currentBones[MAXSTUDIOBONES];
 		const float boneDt = 0.05f;
 
 		if ( pPlayer && pPlayer == C_BasePlayer::GetLocalPlayer() )
@@ -381,7 +380,7 @@ void C_SDKRagdoll::CreateRagdoll()
 	}
 	else
 	{
-		//ClientLeafSystem()->SetRenderGroup( GetRenderHandle(), RENDER_GROUP_TRANSLUCENT_ENTITY );
+		ClientLeafSystem()->SetRenderGroup( GetRenderHandle(), RENDER_GROUP_TRANSLUCENT_ENTITY );
 	}		
 
 	// Fade out the ragdoll in a while
@@ -402,8 +401,7 @@ void C_SDKRagdoll::OnDataChanged( DataUpdateType_t type )
 		if ( !cl_ragdoll_physics_enable.GetInt() )
 		{
 			// Don't let it set us back to a ragdoll with data from the server.
-			//m_nRenderFX = kRenderFxNone;
-			SetRenderFX(kRenderFxNone);
+			m_nRenderFX = kRenderFxNone;
 		}
 	}
 }
@@ -432,14 +430,13 @@ void C_SDKRagdoll::ClientThink( void )
 
 	if ( m_bFadingOut == true )
 	{
-		int iAlpha = GetRenderAlpha();
+		int iAlpha = GetRenderColor().a;
 		int iFadeSpeed = 600.0f;
 
-		iAlpha = MAX( iAlpha - ( iFadeSpeed * gpGlobals->frametime ), 0 );
+		iAlpha = max( iAlpha - ( iFadeSpeed * gpGlobals->frametime ), 0 );
 
 		SetRenderMode( kRenderTransAlpha );
-		//SetRenderColorA( iAlpha );
-		SetRenderAlpha( iAlpha );
+		SetRenderColorA( iAlpha );
 
 		if ( iAlpha == 0 )
 		{
@@ -507,7 +504,7 @@ IRagdoll* C_SDKRagdoll::GetIRagdoll() const
 
 C_BaseAnimating * C_SDKPlayer::BecomeRagdollOnClient()
 {
-	return BaseClass::BecomeRagdollOnClient();
+	return NULL;
 }
 
 
@@ -715,10 +712,9 @@ void C_SDKPlayer::PlayReloadEffect()
 			// Now read out all the sound events with their timing
 			for ( int iEvent=0; iEvent < pSeq->numevents; iEvent++ )
 			{
-				//mstudioevent_t *pevent = (mstudioevent_for_client_server_t*)pSeq.pEvent(iEvent );
-				mstudioevent_t *pEvent = (mstudioevent_for_client_server_t*)pSeq->pEvent( iEvent );
+				mstudioevent_t *pEvent = pSeq->pEvent( iEvent );
 
-				if ( pEvent->Event() == CL_EVENT_SOUND )
+				if ( pEvent->event == CL_EVENT_SOUND )
 				{
 					CSDKSoundEvent event;
 					event.m_SoundName = pEvent->options;
@@ -804,8 +800,8 @@ void C_SDKPlayer::CalcVehicleView(IClientVehicle *pVehicle,	Vector& eyeOrigin, Q
 	if ( !prediction->InPrediction() )
 	{
 		// Shake it up baby!
-		GetViewEffects()->CalcShake();
-		GetViewEffects()->ApplyShake( eyeOrigin, eyeAngles, 1.0 );
+		vieweffects->CalcShake();
+		vieweffects->ApplyShake( eyeOrigin, eyeAngles, 1.0 );
 	}
 }
 
@@ -949,27 +945,27 @@ void C_SDKPlayer::UpdateIDTarget()
 	if ( State_Get() != STATE_ACTIVE )
 		return;
 
-	//trace_t tr;
-	//Vector vecStart, vecEnd;
-	//VectorMA( MainViewOrigin(), 1500, MainViewForward(), vecEnd );
-	//VectorMA( MainViewOrigin(), 10,   MainViewForward(), vecStart );
-	//UTIL_TraceLine( vecStart, vecEnd, MASK_SOLID, this, COLLISION_GROUP_NONE, &tr );
+	trace_t tr;
+	Vector vecStart, vecEnd;
+	VectorMA( MainViewOrigin(), 1500, MainViewForward(), vecEnd );
+	VectorMA( MainViewOrigin(), 10,   MainViewForward(), vecStart );
+	UTIL_TraceLine( vecStart, vecEnd, MASK_SOLID, this, COLLISION_GROUP_NONE, &tr );
 
-	//if ( !tr.startsolid && tr.DidHitNonWorldEntity() )
-	//{
-	//	C_BaseEntity *pEntity = tr.m_pEnt;
+	if ( !tr.startsolid && tr.DidHitNonWorldEntity() )
+	{
+		C_BaseEntity *pEntity = tr.m_pEnt;
 
-	//	if ( pEntity && (pEntity != this) )
-	//	{
-	//		m_iIDEntIndex = pEntity->entindex();
-	//	}
-	//}
+		if ( pEntity && (pEntity != this) )
+		{
+			m_iIDEntIndex = pEntity->entindex();
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Try to steer away from any players and objects we might interpenetrate
 //-----------------------------------------------------------------------------
-#define SDK_AVOID_MAX_RADIUS_SQR		5184.0f			// Based on player extents and MAX buildable extents.
+#define SDK_AVOID_MAX_RADIUS_SQR		5184.0f			// Based on player extents and max buildable extents.
 #define SDK_OO_AVOID_MAX_RADIUS_SQR		0.00029f
 
 ConVar sdk_max_separation_force ( "sdk_max_separation_force", "256", FCVAR_CHEAT|FCVAR_HIDDEN );
@@ -1104,7 +1100,7 @@ void C_SDKPlayer::AvoidPlayers( CUserCmd *pCmd )
 		vecSeparationVelocity = vecPush * -flPushStrength;
 	}
 
-	// Don't allow the MAX push speed to be greater than the MAX player speed.
+	// Don't allow the max push speed to be greater than the max player speed.
 	float flMaxPlayerSpeed = MaxSpeed();
 	float flCropFraction = 1.33333333f;
 
@@ -1164,7 +1160,7 @@ void C_SDKPlayer::AvoidPlayers( CUserCmd *pCmd )
 		flSideScale = fabs( cl_sidespeed.GetFloat() ) / fabs( pCmd->sidemove );
 	}
 
-	float flScale = MIN( flForwardScale, flSideScale );
+	float flScale = min( flForwardScale, flSideScale );
 	pCmd->forwardmove *= flScale;
 	pCmd->sidemove *= flScale;
 

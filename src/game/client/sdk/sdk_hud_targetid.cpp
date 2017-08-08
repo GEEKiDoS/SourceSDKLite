@@ -55,7 +55,7 @@ using namespace vgui;
 CSDKTargetId::CSDKTargetId( const char *pElementName ) :
 	CHudElement( pElementName ), BaseClass( NULL, "TargetID" )
 {
-	vgui::Panel *pParent = GetClientMode()->GetViewport();
+	vgui::Panel *pParent = g_pClientMode->GetViewport();
 	SetParent( pParent );
 
 	m_hFont = g_hFontTrebuchet24;

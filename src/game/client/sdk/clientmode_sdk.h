@@ -34,17 +34,7 @@ public:
 
 	virtual void	PostRenderVGui();
 
-	void DoPostScreenSpaceEffects( const CViewSetup *pSetup );
-
 	virtual bool	CanRecordDemo( char *errorMsg, int length ) const;
-
-	virtual void	OverrideView( CViewSetup *pSetup );
-
-	virtual void	Update( void );
-
-	virtual void	Shutdown();
-
-	virtual void	LevelInit( const char *newmap );
 
 private:
 	

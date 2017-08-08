@@ -32,7 +32,7 @@ public:
 
 	CWeaponGrenade() {}
 
-	virtual int GetWeaponID( void ) const		{ return SDK_WEAPON_GRENADE; }
+	virtual SDKWeaponID GetWeaponID( void ) const		{ return SDK_WEAPON_GRENADE; }
 
 #ifdef CLIENT_DLL
 

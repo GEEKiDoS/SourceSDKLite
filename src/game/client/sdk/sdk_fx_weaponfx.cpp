@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Game-specific impact effect hooks
 //
@@ -54,9 +54,9 @@ void SDK_FX_EjectBrass_338Mag_Callback( const CEffectData &data )
 }
 
 
-DECLARE_CLIENT_EFFECT( EjectBrass_9mm,		SDK_FX_EjectBrass_9mm_Callback );
-DECLARE_CLIENT_EFFECT( EjectBrass_12Gauge,	SDK_FX_EjectBrass_12Gauge_Callback );
-DECLARE_CLIENT_EFFECT( EjectBrass_57,			SDK_FX_EjectBrass_57_Callback );
-DECLARE_CLIENT_EFFECT( EjectBrass_556,		SDK_FX_EjectBrass_556_Callback );
-DECLARE_CLIENT_EFFECT( EjectBrass_762Nato,	SDK_FX_EjectBrass_762Nato_Callback );
-DECLARE_CLIENT_EFFECT( EjectBrass_338Mag,		SDK_FX_EjectBrass_338Mag_Callback );
+DECLARE_CLIENT_EFFECT( "EjectBrass_9mm",		SDK_FX_EjectBrass_9mm_Callback );
+DECLARE_CLIENT_EFFECT( "EjectBrass_12Gauge",	SDK_FX_EjectBrass_12Gauge_Callback );
+DECLARE_CLIENT_EFFECT( "EjectBrass_57",			SDK_FX_EjectBrass_57_Callback );
+DECLARE_CLIENT_EFFECT( "EjectBrass_556",		SDK_FX_EjectBrass_556_Callback );
+DECLARE_CLIENT_EFFECT( "EjectBrass_762Nato",	SDK_FX_EjectBrass_762Nato_Callback );
+DECLARE_CLIENT_EFFECT( "EjectBrass_338Mag",		SDK_FX_EjectBrass_338Mag_Callback );

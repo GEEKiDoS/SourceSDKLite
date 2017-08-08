@@ -27,13 +27,3 @@ void CServerGameClients::GetPlayerLimits( int& minplayers, int& maxplayers, int 
 void CServerGameDLL::LevelInit_ParseAllEntities( const char *pMapEntities )
 {
 }
-
-//-----------------------------------------------------------------------------
-// Purpose: Called to apply lobby settings to a dedicated server
-//-----------------------------------------------------------------------------
-void CServerGameDLL::ApplyGameSettings( KeyValues *pKV )
-{
-	if ( !pKV )
-		return;
-
-}

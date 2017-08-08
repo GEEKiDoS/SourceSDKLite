@@ -27,7 +27,7 @@ public:
 	void Update();
 	virtual void SetVisible(bool state);
 	void MoveToCenterOfScreen();
-	virtual bool IsVisible() { return BaseClass::IsVisible(); }
+
 protected:
 	// vgui overrides for rounded corner background
 	virtual void PaintBackground();

@@ -100,7 +100,6 @@ void CSDKTeamMenu::Update( void )
 //-----------------------------------------------------------------------------
 void CSDKTeamMenu::SetVisible(bool state)
 {
-
 	BaseClass::SetVisible(state);
 
 	if ( state )
@@ -111,7 +110,6 @@ void CSDKTeamMenu::SetVisible(bool state)
 			pAutoButton->RequestFocus();
 		}
 	}
-
 }
 
 //-----------------------------------------------------------------------------
@@ -128,7 +126,7 @@ void CSDKTeamMenu::OnCommand( const char *command )
 	
 	BaseClass::OnCommand(command);
 
-	GetViewPortInterface()->ShowBackGround( false );
+	gViewPortInterface->ShowBackGround( false );
 	OnClose();
 }
 
@@ -174,9 +172,9 @@ void CSDKTeamMenu::ApplySchemeSettings( vgui::IScheme *pScheme )
 	BaseClass::ApplySchemeSettings( pScheme );
 
 	m_bgColor = GetSchemeColor("BgColor", GetBgColor(), pScheme);
-	m_borderColor = pScheme->GetColor( "FgColor", Color( 0, 0, 0, 255 ) );
+	m_borderColor = pScheme->GetColor( "FgColor", Color( 0, 0, 0, 0 ) );
 
-	SetBgColor( Color(0, 0, 0, 255) );
+	SetBgColor( Color(0, 0, 0, 0) );
 	SetBorder( pScheme->GetBorder( "BaseBorder" ) );
 
 	DisableFadeEffect(); //Tony; shut off the fade effect because we're using sourcesceheme.

@@ -1,7 +1,6 @@
-//\src\game\shared\sdk\weapon_sdkbase.cpp
 //========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
 //
-// Purpose: http://pastebin.com/pHfTRTjp
+// Purpose:
 //
 // $NoKeywords: $
 //=============================================================================//
@@ -153,7 +152,7 @@ void CWeaponSDKBase::PrimaryAttack( void )
 		if (pPlayer->GetShotsFired() > 0)
 			return;
 		break;
-		//Tony; added an accessor to determine the MAX burst on a per-weapon basis.
+		//Tony; added an accessor to determine the max burst on a per-weapon basis.
 	case FM_BURST:
 		if (pPlayer->GetShotsFired() > MaxBurstShots())
 			return;
@@ -303,7 +302,7 @@ void CWeaponSDKBase::ItemPostFrame( void )
 			if (pPlayer->GetShotsFired() > 0)
 				pPlayer->ClearShotsFired();
 			break;
-			//Tony; TODO; add an accessor to determine the MAX burst on a per-weapon basis!!
+			//Tony; TODO; add an accessor to determine the max burst on a per-weapon basis!!
 			//DONE!
 		case FM_BURST:
 			if (pPlayer->GetShotsFired() > MaxBurstShots())
@@ -375,7 +374,7 @@ void CWeaponSDKBase::SendReloadEvents()
 //-----------------------------------------------------------------------------
 bool CWeaponSDKBase::Deploy( )
 {
-	//MDLCACHE_CRITICAL_SECTION();
+	MDLCACHE_CRITICAL_SECTION();
  
 	//Tony; on deploy clear shots fired.
 	if (GetPlayerOwner())
@@ -391,7 +390,7 @@ bool CWeaponSDKBase::Deploy( )
 #define SDK_HIDEWEAPON_THINK_CONTEXT			"BaseCombatWeapon_HideThink"
 bool CWeaponSDKBase::Holster( CBaseCombatWeapon *pSwitchingTo )
 { 
-	//MDLCACHE_CRITICAL_SECTION();
+	MDLCACHE_CRITICAL_SECTION();
  
 	// cancel any reload in progress.
 	m_bInReload = false; 

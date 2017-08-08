@@ -14,7 +14,7 @@
 #include <vgui_controls/Panel.h>
 #include <vgui_controls/EditablePanel.h>
 #include "UtlVector.h"
- 
+
 
 class CPanelEffect;
 
@@ -30,7 +30,7 @@ class C_SDKRootPanel : public vgui::Panel
 {
 	typedef vgui::Panel BaseClass;
 public:
-	C_SDKRootPanel( vgui::VPANEL parent, int slot );
+						C_SDKRootPanel( vgui::VPANEL parent );
 	virtual				~C_SDKRootPanel( void );
 
 	// Draw Panel effects here
@@ -43,9 +43,6 @@ public:
 	// Run effects and let them decide whether to remove themselves
 	void				OnTick( void );
 
-	//virtual void		PaintTraverse( bool Repaint, bool allowForce = true );
-
-	//virtual void		OnThink();
 private:
 
 	// Render all panel effects
@@ -53,7 +50,6 @@ private:
 
 	// List of current panel effects
 	CUtlVector< CPanelEffect *> m_Effects;
-	int			m_nSplitSlot;
 };
 
 
